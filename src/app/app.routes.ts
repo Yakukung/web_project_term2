@@ -5,10 +5,12 @@ import { HomepageComponent } from './components/homepage/homepage.component'
 import { VoteComponent } from './components/vote/vote.component';
 import { RankingComponent } from './components/ranking/ranking.component';
 import { ProfileComponent } from './components/profile/profile.component'
+import { NavbarComponent } from './components/navbar/navbar.component';
 export const routes: Routes = [
     { path: '', component: SigninOrSignupComponent},
     { path: 'homepage', component: HomepageComponent },
     { path: 'vote', component: VoteComponent},
     { path: 'ranking', component: RankingComponent},
-    { path: 'profile', component: ProfileComponent }
+    { path: 'profile', component: ProfileComponent },
+    { path: 'navbar', component: NavbarComponent }
 ];

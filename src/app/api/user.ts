@@ -1,9 +1,9 @@
 // ..//../api/user.ts
 export interface users {
-    user_id: number;
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    user_type: string;
-  }
+  email: any;
+  password: any;
+  first_name: any;
+  last_name: any;
+  user_type: any;
+  profile: any;
+}

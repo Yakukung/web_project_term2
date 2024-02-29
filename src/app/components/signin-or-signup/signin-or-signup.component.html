@@ -12,16 +12,16 @@
                         <div class="email">
                             <h4>Email</h4>
                             <mat-form-field appearance="outline">
-                                <input matInput placeholder="" [(ngModel)]="email" name="email">
+                                <input matInput placeholder="" type="email" #email name="email">
                             </mat-form-field>
                         </div>
                         <div class="password">
                             <h4>Password</h4>
                             <mat-form-field appearance="outline">
-                                <input matInput placeholder="" [(ngModel)]="password" name="password">
+                                <input matInput placeholder=""type="password" #password name="password">
                             </mat-form-field>
                         </div>
-                        <button mat-flat-button  (click)="signIn()">Sign In</button>
+                        <button mat-flat-button (click)="getSignIn(email.value, password.value)">Sign In</button>
                         <h5>Forgot your password? <span>Here</span></h5>
                     </div>
                  </div>

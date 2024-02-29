@@ -9,67 +9,64 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { conn } from "../../api/dbconnect";
+import { users } from '../../api/user';
+import axios from 'axios';
 
 @Component({
   selector: 'app-login-or-signup',
   standalone: true,
-  imports: [MatIconModule, MatInputModule, MatFormFieldModule, MatButtonModule, FormsModule,  HttpClientModule],
+  imports: [MatIconModule, MatInputModule, MatFormFieldModule, MatButtonModule, FormsModule, HttpClientModule],
   templateUrl: './signin-or-signup.component.html',
   styleUrls: ['./signin-or-signup.component.scss'],
 })
 export class SigninOrSignupComponent {
+signUp() {
+throw new Error('Method not implemented.');
+}
   email: string = '';
   password: string = '';
   userName: string = '';
 
   constructor(private router: Router, private httpClient: HttpClient) {}
 
-  async signIn() {
-    console.log('Email: ' ,this.email);
-    console.log('password ' ,this.password);
-    const email = this.email;
-    const password = this.password;
-    this.router.navigate(['/homepage'], { queryParams: { userName: this.userName, email, password } });
-    // try {
-    //   const results = await query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password]);
-    //   if (results.length > 0) {
-    //     // พบข้อมูลผู้ใช้ในฐานข้อมูล
-    //     const user = results[0];
-    //     console.log({ success: true, user });
-    //   } else {
-    //     // ไม่พบข้อมูลผู้ใช้
-    //     console.log({ success: false, message: 'Invalid email or password' });
-    //   }
+  show: users[] = [];
 
-    //   this.httpClient.get<any>(`/api/login?email=${email}&password=${password}`)
-    //     .subscribe(response => {
-    //       if (response.success) {
-    //         // เข้าสู่ระบบสำเร็จ
-    //         const user = response.user;
-    //         console.log('Login successful:', user);
-    //         this.router.navigate(['/homepage'], { queryParams: { userName: this.userName, email, password } });
-    //       } else {
-    //         // เข้าสู่ระบบไม่สำเร็จ
-    //         console.log('Login failed:', response.message);
-    //         // ทำการ handle กรณีเข้าสู่ระบบไม่สำเร็จตามความต้องการ
-    //       }
-    //     });
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  }
+  // ปรับแก้เมธอด getSignIn เพื่อให้ใช้ HTTP POST
+async getSignIn(email: string, password: string) {
+  const HOST: string = "http://localhost:3000";
+  const url = `${HOST}/trip/signin`;
 
-  signUp(): void {
-    // ส่วนที่เหลือของฟังก์ชัน signUp
+  const data = {
+    email: email,
+    password: password
+  };
+
+  try {
+    const response = await axios.post(url, data);
+    const user_signin_success: users[] = response.data;
+
+    console.log("Response from API:", user_signin_success);
+
+    if (user_signin_success.length > 0) {
+      console.log("Valid response from API");
+
+      const userType = user_signin_success[0].user_type;
+
+      if (userType === 'user') {
+        this.router.navigate(['/homepage'], { queryParams: { user_signin_success: JSON.stringify(user_signin_success)} });
+      } else if (userType === 'admin') {
+        this.router.navigate(['/admin-homepage'], {  queryParams: { user_signin_success: JSON.stringify(user_signin_success) }});
+      } else {
+        console.log("Invalid user type");
+      }
+    } else {
+      console.log("Invalid email or password");
+    }
+
+    return user_signin_success;
+  } catch (error) {
+    console.error("Error during sign-in:", error);
+    throw error; 
   }
 }
-
-// // ฟังก์ชัน query ที่ใช้ Promise
-// const query = (sql: string, values?: any): Promise<any> => {
-//   return new Promise((resolve, reject) => {
-//     conn.query(sql, values, (error, results) => {
-//       if (error) reject(error);
-//       resolve(results);
-//     });
-//   });
-// };
+}
