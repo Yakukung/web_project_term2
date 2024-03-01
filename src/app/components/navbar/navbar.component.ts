@@ -20,6 +20,7 @@ export class NavbarComponent {
   first_name: string = '';
   last_name: string = '';
   user_id: string = '';
+  userSignInDataString: any;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
@@ -27,10 +28,7 @@ export class NavbarComponent {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       const userSignInDataString = params['user_signin_success'];
-
       // Log ค่าที่ได้จาก queryParams
-      console.log("userSignInDataString from queryParams:", userSignInDataString);
-
       if (userSignInDataString) {
         const userSignInData = JSON.parse(userSignInDataString);
         console.log("userSignInData parsed:", userSignInData);

@@ -8,8 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
-import { conn } from "../../api/dbconnect";
-import { users } from '../../api/user';
+import { conn } from "../../../api/dbconnect";
+import { UsersPostReq } from '../../../model/users.post.req';
 import axios from 'axios';
 
 @Component({
@@ -29,12 +29,11 @@ throw new Error('Method not implemented.');
 
   constructor(private router: Router, private httpClient: HttpClient) {}
 
-  show: users[] = [];
+  show: UsersPostReq [] = [];
 
-  // ปรับแก้เมธอด getSignIn เพื่อให้ใช้ HTTP POST
 async getSignIn(email: string, password: string) {
   const HOST: string = "http://localhost:3000";
-  const url = `${HOST}/trip/signin`;
+  const url = `${HOST}/facemash/signin/`;
 
   const data = {
     email: email,
@@ -42,31 +41,31 @@ async getSignIn(email: string, password: string) {
   };
 
   try {
-    const response = await axios.post(url, data);
-    const user_signin_success: users[] = response.data;
+      const response = await axios.post(url, data);
+      const user_signin_success: UsersPostReq[] = response.data;
 
-    console.log("Response from API:", user_signin_success);
+      console.log("Response from API:", user_signin_success);
 
-    if (user_signin_success.length > 0) {
-      console.log("Valid response from API");
+      if (user_signin_success.length > 0) {
+        console.log("Valid response from API");
 
-      const userType = user_signin_success[0].user_type;
+        const userType = user_signin_success[0].user_type;
 
-      if (userType === 'user') {
-        this.router.navigate(['/homepage'], { queryParams: { user_signin_success: JSON.stringify(user_signin_success)} });
-      } else if (userType === 'admin') {
-        this.router.navigate(['/admin-homepage'], {  queryParams: { user_signin_success: JSON.stringify(user_signin_success) }});
+        if (userType === 'user') {
+          this.router.navigate(['/homepage'], { queryParams: { user_signin_success: JSON.stringify(user_signin_success)} });
+        } else if (userType === 'admin') {
+          this.router.navigate(['/admin-homepage'], {  queryParams: { user_signin_success: JSON.stringify(user_signin_success) }});
+        } else {
+          console.log("Invalid user type");
+        }
       } else {
-        console.log("Invalid user type");
+        console.log("Invalid email or password");
       }
-    } else {
-      console.log("Invalid email or password");
-    }
 
-    return user_signin_success;
-  } catch (error) {
-    console.error("Error during sign-in:", error);
-    throw error; 
+      return user_signin_success;
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+      throw error; 
+    }
   }
-}
 }
