@@ -21,29 +21,28 @@
                     </div>
                  </div>
             </div>
-
             <div class="col-6">
                 <div class="card-signup">
                     <div class="overlay">
                         <h1>Sign Up</h1>
                         <div class="firstname">
                             <h4>Firstname</h4>
-                            <input matInput placeholder="">
+                            <input matInput placeholder="" type="text" [(ngModel)]="firstName" name="firstName">
                         </div>
                         <div class="lastname">
                             <h4>Lastname</h4>
-                            <input matInput placeholder="">
+                            <input matInput placeholder="" type="text" [(ngModel)]="lastName" name="lastName">
                         </div>
                         <div class="email">
                             <h4>Email</h4>
-                            <input matInput placeholder="">
+                            <input matInput placeholder="" type="email" #email name="email">
                         </div>
                         <div class="password">
                             <h4>Password</h4>
-                            <input matInput placeholder="">
+                            <input matInput placeholder="" type="password" #password name="password">
                         </div>
                         <div class="btn-signup">
-                            <button mat-flat-button (click)="signUp()">Sign Up</button>
+                            <button mat-flat-button (click)="getSignUp()">Sign Up</button>
                         </div>
                     </div>
                 </div>
