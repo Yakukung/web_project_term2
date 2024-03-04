@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { MatButtonModule } from '@angular/material/button';
@@ -43,6 +43,7 @@ export class HomepageComponent implements OnInit {
         this.password = response.password;
         this.first_name = response.first_name;
         this.last_name = response.last_name;
+        this.user_id = response.user_id;
 
       },
       (error: any) => {
@@ -51,7 +52,22 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  vote() {
-    this.router.navigate(['/vote']);
+  vote(user_id: string) {
+    const url = `http://localhost:3000/facemash/homepage`;
+
+    this.httpClient.post(url, { user_id }).subscribe(
+      (response: any) => {
+        this.email = response.email;
+        this.password = response.password;
+        this.first_name = response.first_name;
+        this.last_name = response.last_name;
+        this.user_id = response.user_id;
+
+      },
+      (error: any) => {
+        console.error("Error fetching user data:", error);
+      }
+    );
+    this.router.navigate(['/vote'], { queryParams: { user_id: this.user_id } });
   }
 }

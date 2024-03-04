@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
-import { conn } from "../../../api/dbconnect";
 import { UsersPostReq } from '../../../model/users.post.req';
 import axios from 'axios';
 import { CommonModule } from '@angular/common';
@@ -28,7 +27,7 @@ export class SigninOrSignupComponent {
   lastName: any;
   email: string = '';
   password: string = '';
-  signupSuccess: boolean = false; // Track signup success
+  signupSuccess: boolean = false;
 
   constructor(private router: Router, private httpClient: HttpClient, private dialog: MatDialog) {}
 

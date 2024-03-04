@@ -1,0 +1,81 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="title-head">
+        <div class="title-edit">
+            <div class="edit">
+                <p>Edit Profile</p>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="btn-back">
+        <button  class="btn-edit" style=" background-color: #F51E3C; color: white;" mat-flat-button (click)="backProfile(user_id)">Back</button>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <div class="icon">
+                <img src="{{icon}}" alt="">
+            </div>
+         
+        </div>
+        <div class="col-7">
+            <div class="card-head">
+                <div class="card-name-about">
+                 <div class="firstname">
+                     <span>Firstname:</span>
+                         <mat-form-field appearance="outline">
+                           <mat-label>{{first_name}}</mat-label>
+                           <input matInput placeholder="" type="text" #firstname>
+                         </mat-form-field>
+                         <div class="btn-firstname">
+                             <button mat-flat-button >Edit</button>
+                         </div>
+                 </div>
+                 <div class="lastname">
+                     <span>Lastname:</span>
+                     <mat-form-field appearance="outline">
+                         <mat-label>{{last_name}}</mat-label>
+                         <input matInput placeholder="" type="text"  #firstname>
+                       </mat-form-field>
+                       <div class="btn-lastname">
+                        <button mat-flat-button >Edit</button>
+                    </div>
+                 </div>
+                 <div class="about">
+                    <span>About:</span>
+                     <mat-form-field>
+                    <textarea matInput [(ngModel)]="about"></textarea>
+                      </mat-form-field>
+                      <div class="btn-about">
+                        <button mat-flat-button >Edit</button>
+                    </div>
+                 </div>
+                </div>
+                <div class="container-post">
+                    <div class="list-post">
+                        <div class="row">
+                            <div class="list-post-body">
+                                <span>Icon:</span>
+                                <div class="input-post">
+                                    <input  type="file">
+                                </div>
+                                <button mat-flat-button class="btn-delete" style="background-color: #F51E3C; color: white;">Delete</button>
+                                <button mat-flat-button class="btn-edit"  style="background-color: #1F426B; color: white;">Edit</button>
+                            </div>
+                        </div>
+                        <div *ngFor="let post of posts; let i = index" class="row">
+                            <div class="list-post-body">
+                                <span>Post{{ i + 1 }}:</span>
+                                <div class="input-post">
+                                    <input type="file">
+                                </div>
+                                <button mat-flat-button class="btn-delete" style="background-color: #F51E3C; color: white;">Delete</button>
+                                <button mat-flat-button class="btn-edit"  style="background-color: #1F426B; color: white;">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
