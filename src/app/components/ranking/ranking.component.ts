@@ -13,5 +13,5 @@ import { UsersPostReq } from '../../../model/users.post.req';
 })
 export class RankingComponent {
   constructor(private router: Router, private route: ActivatedRoute) {}
-
+  
 }

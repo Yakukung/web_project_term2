@@ -24,26 +24,31 @@
             <div class="col-6">
                 <div class="card-signup">
                     <div class="overlay">
+                        
                         <h1>Sign Up</h1>
+                        <div class="text-status">
+                            <div class="text-success" *ngIf="successMessage">{{ successMessage }}</div>
+                            <div  class="text-error"*ngIf="errorMessage">{{ errorMessage }}</div>
+                        </div>
                         <div class="firstname">
                             <h4>Firstname</h4>
-                            <input matInput placeholder="" type="text" [(ngModel)]="firstName" name="firstName">
-                        </div>
-                        <div class="lastname">
+                            <input matInput placeholder="" #firstNameInput type="text" name="firstName">
+                          </div>
+                          <div class="lastname">
                             <h4>Lastname</h4>
-                            <input matInput placeholder="" type="text" [(ngModel)]="lastName" name="lastName">
-                        </div>
-                        <div class="email">
+                            <input matInput placeholder="" #lastNameInput type="text" name="lastName">
+                          </div>
+                          <div class="email">
                             <h4>Email</h4>
-                            <input matInput placeholder="" type="email" #email name="email">
-                        </div>
-                        <div class="password">
+                            <input matInput placeholder="" #emailInput type="email" name="email">
+                          </div>
+                          <div class="password">
                             <h4>Password</h4>
-                            <input matInput placeholder="" type="password" #password name="password">
-                        </div>
-                        <div class="btn-signup">
-                            <button mat-flat-button (click)="getSignUp()">Sign Up</button>
-                        </div>
+                            <input matInput placeholder="" #passwordInput type="password" name="password">
+                          </div>
+                          <div class="btn-signup">
+                            <button mat-flat-button (click)="getSignUp(firstNameInput, lastNameInput, emailInput, passwordInput)">Sign Up</button>
+                          </div>
                     </div>
                 </div>
             </div>

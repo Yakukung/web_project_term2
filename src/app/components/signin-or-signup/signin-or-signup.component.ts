@@ -12,7 +12,6 @@ import { UsersPostReq } from '../../../model/users.post.req';
 import axios from 'axios';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { RegistrationSuccessDialogComponent } from './registration-success-dialog.component';
 
 
 @Component({
@@ -27,53 +26,45 @@ export class SigninOrSignupComponent {
   lastName: any;
   email: string = '';
   password: string = '';
-  signupSuccess: boolean = false;
+  successMessage: string = '';
+  errorMessage: string = '';
+  registeredSuccessfully: boolean = false;
 
   constructor(private router: Router, private httpClient: HttpClient, private dialog: MatDialog) {}
 
-  getSignUp() {
-    const firstName = this.firstName;
-    const lastName = this.lastName;
-    const email = this.email;
-    const password = this.password;
-
+  getSignUp(firstNameInput: HTMLInputElement, lastNameInput: HTMLInputElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement) {
     const url = 'http://localhost:3000/facemash/signup/';
-
     const userData = {
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      password: password,
+      first_name: firstNameInput.value,
+      last_name: lastNameInput.value,
+      email: emailInput.value,
+      password: passwordInput.value,
     };
-
+  
+    console.log(userData);
+  
     this.httpClient.post(url, userData).subscribe(
       (response: any) => {
         console.log('User successfully signed up:', response);
-        // Reset form fields if needed
-        this.firstName = '';
-        this.lastName = '';
-        this.email = '';
-        this.password = '';
-
-        // Open the registration success popup
-        this.openRegistrationSuccessDialog();
+        this.errorMessage = '';
+        this.successMessage = 'Registration successful!';
+        this.registeredSuccessfully = true; // Set the flag to true
+        setTimeout(() => {
+          this.router.navigate(['/']); // Navigate to the same route
+        }, 2000); // Delay for 2 seconds before refreshing
       },
       (error: any) => {
-        console.error('Error during signup:', error);
+        if (error.status === 409) {
+          this.successMessage = ''; // Reset success message
+          console.error('Email already in use. Please choose a different email.');
+          this.errorMessage = 'Email already in use. Please choose a different email.';
+        } else {
+          console.error('Error during signup:', error);
+        }
       }
     );
   }
-
-  openRegistrationSuccessDialog(): void {
-    const dialogRef = this.dialog.open(RegistrationSuccessDialogComponent, {
-      width: '350px',
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      // Handle any actions after the popup is closed (e.g., navigation)
-      this.router.navigate(['/']);
-    });
-  }
+  
 
   async getSignIn(email: string, password: string) {
     const HOST: string = "http://localhost:3000";
@@ -98,10 +89,8 @@ export class SigninOrSignupComponent {
 
         if (user_id) {
           if (user_type === 'user') {
-            // Redirect to homepage for regular user
             this.router.navigate(['/homepage'], { queryParams: { user_id: user_id } });
           } else if (user_type === 'admin') {
-            // Redirect to admin homepage for admin user
             this.router.navigate(['/admin-homepage'], { queryParams: { user_id: user_id } });
           } else {
             console.log("Invalid user type");

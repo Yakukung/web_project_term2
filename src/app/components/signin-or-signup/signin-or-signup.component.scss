@@ -105,3 +105,11 @@
         }
     }
 }
+.text-status{
+    & .text-success{
+        color: green;
+    }
+    & .text-error{
+        color: red;
+    }
+}
