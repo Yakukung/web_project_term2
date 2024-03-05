@@ -14,11 +14,17 @@ mat-toolbar{
         font-size: 40px;
         margin-left: 5rem;
     }
-    & .nav-right{
-        button{
-            margin-left: 2rem;
-            border-radius: 12.5px;
-            background-color: rgba(249, 249, 252, 0);
+    .nav-right {
+        button {
+          margin-left: 2rem;
+          border-radius: 12.5px;
+          background-color: rgba(249, 249, 252, 0);
+          color: black; /* Default color for buttons */
+    
+        }
+        .active-icon {
+          background-color: #efeff2;
+          color: black;
         }
         .btn-login{
             margin-right: 5rem;
@@ -26,5 +32,6 @@ mat-toolbar{
             color: white;
             width: 100px;
         }
+        
     }
 }
