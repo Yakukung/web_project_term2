@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http'; 
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [CommonModule, NavbarComponent, MatButtonModule, HttpClientModule, MatIconModule],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
+
+  @ViewChild('fileInput') fileInput: ElementRef;
 
   email: string = '';
   password: string = '';
@@ -25,7 +28,17 @@ export class ProfileComponent {
   icon: string = '';
   about: string = '';
   posts: any[] = [];
-  constructor(private router: Router, private route: ActivatedRoute, private httpClient: HttpClient) {}
+  fileName: string = 'Upload New Post!';
+  iconSize: string = '100px';
+  isLikedMap: { [post_id: string]: boolean } = {};
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private httpClient: HttpClient,
+    private storage: AngularFireStorage
+  ) {}
+
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       const user_id = params['user_id'];
@@ -55,16 +68,16 @@ export class ProfileComponent {
 
         console.log('Response:', response);
         console.log('Posts before:', this.posts);
-
       },
       (error: any) => {
         console.error("Error fetching user data:", error);
       }
     );
   }
+
   fetchPostData(user_id: string) {
     const postUrl = `http://localhost:3000/facemash/profile`;
-  
+
     this.httpClient.post(postUrl, { user_id })
       .subscribe(
         (response: any) => {
@@ -77,17 +90,47 @@ export class ProfileComponent {
         }
       );
   }
-  iconSize: string = '100px';
-  isLikedMap: { [post_id: string]: boolean } = {};
 
   toggleLike(post_id: string) {
     this.isLikedMap[post_id] = !this.isLikedMap[post_id];
   }
 
-
-
   editProfile(user_id: string) {
     this.router.navigate(['/edit-profile'], { queryParams: { user_id: this.user_id } });
-    }
-}
+  }
 
+  file(event: any) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.fileName = files[0].name;
+    } else {
+      this.fileName = 'Upload New Post!';
+    }
+  }
+
+  post() {
+    const userId = this.user_id;
+    const first_name = this.first_name;
+    const file = this.fileInput.nativeElement.files[0];
+
+    if (file) {
+      const filePath = `/${userId}/post/${file.name}`;
+      const storagePath = `/assets/img/${first_name}/post/`;
+
+      const fileRef = this.storage.ref(filePath);
+      const uploadTask = this.storage.upload(filePath, file);
+
+      uploadTask.snapshotChanges().subscribe(
+        (snapshot: { state: string }) => {
+          if (snapshot.state === 'success') {
+            console.log('File uploaded successfully!');
+            // Perform additional operations if needed
+          }
+        },
+        (error: any) => {
+          console.error('Error uploading file:', error);
+        }
+      );
+    }
+  }
+}

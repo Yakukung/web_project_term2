@@ -44,6 +44,17 @@
             object-fit: cover;
             object-position: center top;
         }
+        p {
+            width: 100%;
+            height: 100%;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #777; /* Adjust the color as needed */
+            background-color: #F9F9FC;
+            border-radius: 30px;
+        }
     }
 }
 .col-7{
@@ -102,6 +113,7 @@
     & span{
         font-size: 16px;
         font-weight: 500;
+        width: 50px;
     }
 }
 
@@ -118,3 +130,68 @@ mat-form-field{
 .btn-edit{
     border-radius: 11px;
 }
+
+
+
+.card-input {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 10px;
+    width: 100%;
+}
+
+.file-input-container {
+    width: 100%;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+}
+
+.box__file {
+    display: none;
+}
+
+.box__dragndrop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* จัดตัวข้อความตรงกลาง และปุ่มด้านล่างสุดต่อกัน */
+    border: 2px dashed #ccc;
+    padding: 20px;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    &::before {
+        content: ""; /* สร้างส่วนพิเศษข้างหน้า */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* สีมืด (RGBA: 0, 0, 0) พร้อมค่าความโปร่งแสง (0.5) */
+    }
+
+    & p {
+        z-index: 100;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
+    }
+    & .btn{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        border: none;
+    }
+}
+button{
+    width: 75px;
+}
+

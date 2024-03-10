@@ -28,7 +28,6 @@ export class VoteComponent implements OnInit {
     try {
       const response = await axios.post(url);
       
-      // ตรวจสอบว่าข้อมูลที่ได้รับมาเป็นอาร์เรย์หรือไม่
       if (Array.isArray(response.data)) {
         // แปลงข้อมูลให้เป็นอาร์เรย์
         this.show = response.data;

@@ -22,6 +22,13 @@
             </div>
             <div class="col-7">
                 <div class="container-card">
+                    <div class="card-import-post">
+                        <label for="image" class="custom-file-upload">
+                            <span>{{ fileName }}</span>
+                            <input #fileInput id="image" name="image" type="file" (change)="file($event)" required>
+                        </label>
+                        <button mat-flat-button color="primary" (click)="post()">Post</button>
+                    </div>                                     
                     <div *ngFor="let post of posts" class="row">
                         <div class="card-post">
                             <div class="card-head">

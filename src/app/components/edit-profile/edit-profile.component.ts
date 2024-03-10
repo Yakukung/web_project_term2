@@ -28,7 +28,9 @@ export class EditProfileComponent {
   icon: string = '';
   about: string = '';
   posts: any[] = [];
-aboutForm: any;
+  aboutForm: any;
+  http: any;
+
   constructor(private router: Router, private route: ActivatedRoute, private httpClient: HttpClient) {}
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -97,8 +99,60 @@ aboutForm: any;
       const file: File = event.target.files[0];
 
       if (file) {
-          // Handle the selected file, e.g., upload to a server or process locally
           console.log('Selected File:', file);
       }
   }
-}
+
+  
+
+
+  handleFileChange(event: any, index: number, user_id: string, post_id: string) {
+    console.log('this.posts:', this.posts);
+    console.log('index:', index);
+    
+    const currentPost = this.posts[index];
+    console.log('currentPost:', currentPost);
+  
+    if (!currentPost || !currentPost.post) {
+      console.error('Invalid post or post structure.');
+      return;
+    }
+    
+    const fileInput = event.target;
+  
+    if (fileInput.files && fileInput.files[0]) {
+      const selectedFile = fileInput.files[0];
+  
+      console.log('Selected file name:', selectedFile.name);
+  
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+  
+      // Replace 'http://localhost:3000' with your actual server URL
+      const uploadUrl = `http://localhost:3000/upload/${user_id}/${post_id}`;
+  
+      this.http.post(uploadUrl, formData).subscribe(
+        (response: any) => {
+          console.log('File uploaded successfully', response);
+          this.updatePostPicture(index, response.url); // Assuming the server returns the URL of the uploaded file
+        },
+        (error: any) => {
+          console.error('Error uploading file', error);
+          // Handle error appropriately, e.g., display an error message to the user
+        }
+      );
+    }
+  }
+  
+  updatePostPicture(index: number, imageUrl: string) {
+    // Update the post's picture property with the new image URL
+    this.posts[index].picture = imageUrl;
+  }
+  
+  
+  
+  triggerFileInput(index: number) {
+    const fileInput = document.getElementById(`file${index}`) as HTMLInputElement;
+    fileInput.click();
+  }
+}  

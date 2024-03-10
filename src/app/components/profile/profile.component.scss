@@ -165,3 +165,40 @@
   width: 60px;
   height: auto;
 }
+
+
+.card-import-post {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+    background-color: #F9F9FC;
+    padding: 2rem;
+    border-radius: 30px;
+
+    & button{
+        border-radius: 11px;
+    }
+}
+
+.custom-file-upload {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 320px;
+    border-radius: 11px;
+}
+
+.custom-file-upload input[type="file"] {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
