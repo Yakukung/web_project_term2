@@ -63,7 +63,13 @@ export class NavbarComponent {
   }
   
   signup() {
-    this.router.navigate(['/']);
+
+    const isConfirmed = window.confirm('Are you sure you want to sign out?');
+
+    if (isConfirmed) {
+      this.router.navigate(['/']);
+    } else {
+    }
   }
 
   profile() {
